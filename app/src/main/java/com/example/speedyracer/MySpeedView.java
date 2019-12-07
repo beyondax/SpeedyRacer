@@ -7,11 +7,13 @@ import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
@@ -26,15 +28,18 @@ public class MySpeedView extends View {
     private static final float FONT_SIZE = 32f;
     private static final float START_ANGLE = -180f;
     private static final float MAX_PROGRESS = 200f;
+
     private static final Paint TEXT_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint ARC_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint ARROW_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint CIRCLE_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     private static final int MAX_SPEED = 200;
     private static final int MIN_SPEED = 0;
     private static final float MAX_ANGLE = 180;
+
     private RectF mArcBounds;
-    private RectF mTextBounds;
+    private Rect mTextBounds = new Rect();
     private Path mArrowPath;
 
     private int mProgress;
@@ -108,7 +113,6 @@ public class MySpeedView extends View {
 
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -117,22 +121,23 @@ public class MySpeedView extends View {
         final float cy = mArcBounds.centerY();
         canvas.drawCircle(cx, cy, RADIUS, CIRCLE_PAINT);
         drawArrow(canvas);
+        drawText(canvas);
 
     }
 
     private Shader createShader() {
         LinearGradient shader = new LinearGradient(X_LEFT, Y_BOTTOM, X_RIGHT, Y_BOTTOM, new int[]{Color.GREEN, Color.YELLOW, Color.YELLOW, Color.RED}, null, Shader.TileMode.CLAMP);
         return shader;
+
     }
 
-//    private void getTextBounds(@NonNull String progressString) {
-//        TEXT_PAINT.getTextBounds(progressString, 0, progressString.length(), mTextBounds);
-//    }
-
+    private void getTextBounds(@NonNull String progressString) {
+        TEXT_PAINT.getTextBounds(progressString, 0, progressString.length(), mTextBounds);
+    }
 
     private void drawText(Canvas canvas) {
         final String progressString = formatString(mProgress);
-//        getTextBounds(progressString);
+        getTextBounds(progressString);
         float x = mArcBounds.width() / 2f - mTextBounds.width() / 2f - mTextBounds.left + mArcBounds.left;
         float y = mArcBounds.height() + mTextBounds.height() / 2f - mTextBounds.bottom + mArcBounds.top;
         canvas.drawText(progressString, x, y, TEXT_PAINT);
