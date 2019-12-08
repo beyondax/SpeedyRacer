@@ -25,7 +25,7 @@ public class MySpeedView extends View {
     private static final float X_RIGHT = 900f;
     private static final float Y_BOTTOM = 900f;
     private static final float STROKE_WIDTH = 30f;
-    private static final float FONT_SIZE = 32f;
+    private static final float FONT_SIZE = 64f;
     private static final float START_ANGLE = -180f;
     private static final float MAX_PROGRESS = 200f;
 
@@ -114,6 +114,16 @@ public class MySpeedView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawArc(mArcBounds, START_ANGLE, MAX_ANGLE, false, ARC_PAINT);
@@ -121,7 +131,9 @@ public class MySpeedView extends View {
         final float cy = mArcBounds.centerY();
         canvas.drawCircle(cx, cy, RADIUS, CIRCLE_PAINT);
         drawArrow(canvas);
-        drawText(canvas);
+        drawTextCurrentProgress(canvas);
+        drawTextMin(canvas);
+        drawTextMax(canvas);
 
     }
 
@@ -135,12 +147,28 @@ public class MySpeedView extends View {
         TEXT_PAINT.getTextBounds(progressString, 0, progressString.length(), mTextBounds);
     }
 
-    private void drawText(Canvas canvas) {
+    private void drawTextCurrentProgress(Canvas canvas) {
         final String progressString = formatString(mProgress);
         getTextBounds(progressString);
         float x = mArcBounds.width() / 2f - mTextBounds.width() / 2f - mTextBounds.left + mArcBounds.left;
-        float y = mArcBounds.height() + mTextBounds.height() / 2f - mTextBounds.bottom + mArcBounds.top;
+        float y = mArcBounds.bottom / 2f + mTextBounds.height() + mTextBounds.bottom + mArcBounds.top;
         canvas.drawText(progressString, x, y, TEXT_PAINT);
+    }
+
+    private void drawTextMin(Canvas canvas) {
+        final String minSpeedText = formatString(MIN_SPEED);
+        getTextBounds(minSpeedText);
+        float x = mArcBounds.width() / 2f - mTextBounds.width() - mTextBounds.right / 2f - mArcBounds.left;
+        float y = mArcBounds.bottom / 2f + mTextBounds.height() + mTextBounds.bottom + mArcBounds.top;
+        canvas.drawText(minSpeedText, x, y, TEXT_PAINT);
+    }
+
+    private void drawTextMax(Canvas canvas) {
+        final String maxSpeedText = formatString(MAX_SPEED);
+        getTextBounds(maxSpeedText);
+        float x = mArcBounds.width() / 2f + mTextBounds.width() / 2f + mTextBounds.right / 2f + mArcBounds.left;
+        float y = mArcBounds.bottom / 2f + mTextBounds.height() + mTextBounds.bottom + mArcBounds.top;
+        canvas.drawText(maxSpeedText, x, y, TEXT_PAINT);
     }
 
     private String formatString(int progress) {
@@ -148,4 +176,16 @@ public class MySpeedView extends View {
     }
 
 
+//    private void extractAttributes(@NonNull Context context, @Nullable AttributeSet attrs) {
+//        if (attrs != null) {
+//            final Resources.Theme theme = context.getTheme();
+//            final TypedArray typedArray = theme.obtainStyledAttributes(attrs, R.styleable.MySpeedView, 0, R.style.MySpeedViewDefault);
+//            try {
+//                mProgress = typedArray.getInt(R.styleable.MySpeedView_progress, 0);
+//                mShaderColor = typedArray.getColor(R.styleable.MySpeedView_shader_color, Color.GREEN);
+//            } finally {
+//                typedArray.recycle();
+//            }
+//        }
+//    }
 }
