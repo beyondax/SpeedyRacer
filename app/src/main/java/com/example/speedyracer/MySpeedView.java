@@ -132,7 +132,7 @@ public class MySpeedView extends View {
         final float x = mArcBounds.centerX();
         final float y = mArcBounds.centerY();
         arrowPath.moveTo(x, y - STROKE_WIDTH / 5f);
-        arrowPath.lineTo(x - X_RIGHT / 2f, y);
+        arrowPath.lineTo(x - X_RIGHT / 3f, y);
         arrowPath.lineTo(x, y + STROKE_WIDTH / 5f);
         arrowPath.close();
 
@@ -164,7 +164,7 @@ public class MySpeedView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         final int size = Math.min(w, h);
         mArcBounds = new RectF(getPaddingLeft() + STROKE_WIDTH / 2, STROKE_WIDTH / 2 + getPaddingTop(), size - STROKE_WIDTH / 2 - getPaddingRight(), size - STROKE_WIDTH / 2 - getPaddingBottom());
-
+        ARC_PAINT.setShader(new LinearGradient(mArcBounds.left, mArcBounds.bottom, mArcBounds.right, mArcBounds.bottom, mArcColorArray, null, Shader.TileMode.CLAMP));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class MySpeedView extends View {
     private void drawTextMax(Canvas canvas) {
         final String maxSpeedText = formatString(mMaxSpeed);
         getTextBounds(maxSpeedText);
-        float x = mArcBounds.right / 2f + mTextBounds.width() / 2f + mTextBounds.right / 2f + mArcBounds.left / 2f;
+        float x = mArcBounds.right - mTextBounds.width() / 2f - mTextBounds.right / 2f + mArcBounds.left;
         float y = mArcBounds.bottom / 2f + mTextBounds.height() + mTextBounds.bottom + mArcBounds.top;
         canvas.drawText(maxSpeedText, x, y, TEXT_PAINT);
     }
