@@ -210,7 +210,7 @@ public class MySpeedView extends View {
     private void drawTextMax(Canvas canvas) {
         final String maxSpeedText = formatString(mMaxSpeed);
         getTextBounds(maxSpeedText);
-        float x = mArcBounds.right - mTextBounds.width() / 2f - mTextBounds.right / 2f + mArcBounds.left;
+        float x = mArcBounds.right - mTextBounds.width() / 2f - mTextBounds.right / 2f + mArcBounds.left / 2f;
         float y = mArcBounds.bottom / 2f + mTextBounds.height() + mTextBounds.bottom + mArcBounds.top;
         canvas.drawText(maxSpeedText, x, y, TEXT_PAINT);
     }
