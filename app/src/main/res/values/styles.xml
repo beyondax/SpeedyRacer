@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MySpeedViewDefault">
+        <item name="progress">0</item>
+        <item name="minSpeed">0</item>
+        <item name="maxSpeed">200</item>
+        <item name="colorArrow">@color/colorArrowDefault</item>
+    </style>
+
 </resources>

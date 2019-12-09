@@ -1,8 +1,9 @@
 <resources>
     <declare-styleable name="MySpeedView">
-        <attr name="exampleString" format="string" />
-        <attr name="exampleDimension" format="dimension" />
-        <attr name="exampleColor" format="color" />
-        <attr name="exampleDrawable" format="color|reference" />
+        <attr name="progress" format="string" />
+        <attr name="minSpeed" format="integer" />
+        <attr name="maxSpeed" format="integer" />
+        <attr name="colorArrow" format="integer" />
+        <attr name="shaderColors" format="reference" />
     </declare-styleable>
 </resources>
